@@ -1,0 +1,46 @@
+﻿反转从位置 m 到 n 的链表。用一趟扫描在原地完成反转。
+
+例如：
+给定 1->2->3->4->5->NULL, m = 2 和 n = 4,
+
+返回 1->4->3->2->5->NULL.
+
+说明:
+给定 m, n 满足：
+1 ≤ m ≤ n ≤ 链表长度。
+
+
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     struct ListNode *next;
+ * };
+ */
+struct ListNode* reverseBetween(struct ListNode* head, int m, int n) {
+    int nodenumber_reverse = n - m + 1;
+    struct ListNode* pre_head = NULL;
+    struct ListNode* result = head;
+    while(head && --m)
+    {
+        pre_head = head;
+        head = head->next;
+    }
+    struct ListNode* temp_m_head = head;
+    struct ListNode* new_head = NULL;
+    while(head && nodenumber_reverse--)
+    {
+        struct ListNode* next = head->next;
+        head->next = new_head;
+        new_head = head;
+        head = next;
+    }
+    temp_m_head->next = head;
+    
+    if(pre_head)
+        pre_head->next = new_head;
+    else
+        result = new_head;
+
+    return result;
+}

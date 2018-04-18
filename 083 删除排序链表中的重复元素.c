@@ -1,0 +1,42 @@
+﻿给定一个排序链表，删除所有重复的元素，使得每个元素只留下一个。
+
+示例：
+
+给定 1->1->2，返回 1->2
+
+给定 1->1->2->3->3，返回 1->2->3
+
+
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     struct ListNode *next;
+ * };
+ */
+struct ListNode* deleteDuplicates(struct ListNode* head) {
+    struct ListNode* pre_head = NULL;
+    struct ListNode* result = head;
+    while(head && head->next)
+    {
+        if(head->next->val == head->val)
+        {
+            if(pre_head)
+            {
+                pre_head->next = head->next;  
+            }     
+            else
+            {
+                result = head->next;
+            }
+            head = head->next;
+        }
+        else
+        {
+            pre_head = head;
+            head = head->next;
+        }
+    }
+    return result;
+    
+}
