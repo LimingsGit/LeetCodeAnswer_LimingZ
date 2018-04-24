@@ -1,0 +1,27 @@
+﻿给定一个大小为 n 的数组，找到其中的众数。众数是指在数组中出现次数大于  n/2  的元素。
+
+你可以假设数组是非空的，并且数组中的众数永远存在。
+
+致谢:
+特别感谢 @ts 添加这道题并创建所有测试用例。
+
+int majorityElement(int* nums, int numsSize) {
+    if(numsSize == 1)
+        return nums[numsSize - 1];
+    int leftMaj = majorityElement(nums, numsSize / 2);
+    int RightMaj = majorityElement(nums + numsSize / 2, numsSize - numsSize / 2);
+    
+    if(leftMaj == RightMaj)
+        return leftMaj;
+    
+    int leftfre = 0;
+    int rightfre = 0;
+    for(int i = 0;i < numsSize;i++)
+    {
+        if(nums[i] == leftMaj)
+            leftfre++;
+        if(nums[i] == RightMaj)
+            rightfre++;
+    }
+    return leftfre > rightfre ? leftMaj : RightMaj;
+}
