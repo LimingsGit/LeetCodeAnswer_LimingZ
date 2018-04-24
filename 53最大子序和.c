@@ -1,0 +1,77 @@
+﻿给定一个整数数组 nums ，找到一个具有最大和的连续子数组（子数组最少包含一个元素），返回其最大和。
+
+示例:
+
+输入: [-2,1,-3,4,-1,2,1,-5,4],
+输出: 6
+解释: 连续子数组 [4,-1,2,1] 的和最大，为 6。
+进阶:
+
+如果你已经实现复杂度为 O(n) 的解法，尝试使用更为精妙的分治法求解。
+
+
+1、分治法
+
+int MaxNum(int num1, int num2, int num3)
+{
+    if(num1 >= num2 && num1 >= num3)
+        return num1;
+    if(num2 >= num1 && num2 >= num3)
+        return num2;
+    else
+        return num3;
+}
+
+int FindMaxCrossSubAry(int* nums, int mid, int high, int low)
+{
+    int LeftSum = nums[mid];
+    int tempsum = 0;
+    for(int i = mid;i >= low;i--)
+    {
+        tempsum += nums[i];
+        if(LeftSum < tempsum)
+        {
+            LeftSum = tempsum;
+        }
+    }
+    int RightSum = nums[mid + 1];
+    tempsum = 0;
+    for(int j = mid + 1;j <= high;j++)
+    {
+        tempsum += nums[j];
+        if(RightSum < tempsum)
+        {
+            RightSum = tempsum;
+        }
+    }
+    return RightSum + LeftSum;
+}
+
+int maxSubArray(int* nums, int numsSize) {
+    int high = numsSize - 1;
+    int low = 0;
+    if(high == low)
+        return nums[low];
+    int mid = (high + low)/2;
+    int LeftSum = maxSubArray(nums, mid - low + 1);
+    int RightSum = maxSubArray(nums + mid + 1, high - mid);
+    int CrossSum = FindMaxCrossSubAry(nums, mid, high, low);
+    
+    return MaxNum(LeftSum, RightSum, CrossSum);
+}
+
+2、动态规划法
+int maxSubArray(int* nums, int numsSize) {
+    int sum = 0; 
+	int ans = MIN_INT;
+	for(int i = 0;i < numsSize;i++)
+	{
+		if(sum < 0)
+			sum = 0;
+		sum += nums(i);
+		ans = ans > sum ? ans:sum;
+	}
+	return ans;
+}
+
+
